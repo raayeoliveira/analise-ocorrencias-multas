@@ -1,0 +1,488 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ocorrências & Multas · BackOffice Franquias</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box}
+:root{
+ --bg:oklch(96.5% .012 260);--paper:oklch(99.4% .003 250);
+ --ink:oklch(24% .02 255);--ink2:oklch(42% .018 255);--ink3:oklch(58% .014 255);
+ --line:oklch(89% .01 255);--soft:oklch(95% .012 260);
+ --blue:oklch(48% .21 258);--red:oklch(52% .17 27);--redbg:oklch(95.5% .03 27);
+ --amber:oklch(55% .12 70);--amberbg:oklch(95.5% .04 80);
+ --navy:oklch(19% .05 260);--coral:oklch(70% .17 32);--coralbg:oklch(94% .04 32);
+ --green:oklch(50% .11 155);--greenbg:oklch(95.5% .035 155);
+ --s1:4px;--s2:8px;--s3:12px;--s4:16px;--s5:24px;--s6:32px;--s7:48px;--s8:64px}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 14.5px/1.5 Literata,Georgia,serif}
+.wrap{max-width:1080px;margin:0 auto;padding:0 var(--s5) var(--s6)}
+.hero{background:var(--navy);color:oklch(94% .01 260);padding:var(--s4) 0 var(--s6)}
+.hero-inner{max-width:1080px;margin:0 auto;padding:0 var(--s5)}
+.hero .masthead{border-bottom:1px solid oklch(35% .04 260);margin-bottom:var(--s4);padding-bottom:var(--s2);display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:var(--s3)}
+.hero .wordmark{color:oklch(94% .01 260);letter-spacing:.14em;display:flex;align-items:center;gap:var(--s3)}
+.hero .wordmark span{color:oklch(72% .02 260);letter-spacing:.14em}
+.sz-logo{display:inline-flex;align-items:center;gap:2px;font:700 24px/1 "Bricolage Grotesque",sans-serif;letter-spacing:-.04em;color:var(--paper)}
+.sz-logo .sz-house{display:inline-block;width:.75em;height:.85em;position:relative;flex-shrink:0}
+.sz-logo .sz-house svg{width:100%;height:100%;display:block}
+.hero .mast-date{color:oklch(72% .02 260);font:500 13px/1 "Bricolage Grotesque";letter-spacing:.06em;text-transform:uppercase}
+.hero .eyebrow{color:var(--coral);margin-bottom:var(--s3);font:700 12px/1 "Bricolage Grotesque";letter-spacing:.08em;text-transform:uppercase}
+.hero h1{color:var(--paper);margin:var(--s2) 0 var(--s4);max-width:22ch;font-family:"Bricolage Grotesque";font-size:clamp(28px,4vw,38px);line-height:1.05;font-weight:700;letter-spacing:-.01em}
+.hero .lede{color:oklch(88% .01 260);max-width:72ch;font-size:15px;text-align:justify;hyphens:auto;line-height:1.55}
+.hero .meta{color:oklch(70% .02 260);margin-top:var(--s4);font-size:13px}
+.hero .meta b{color:var(--paper)}
+.nums{margin:calc(-1 * var(--s6)) 0 var(--s5);position:relative;z-index:2;display:flex;flex-direction:column;gap:var(--s2)}
+.nums .feat{background:var(--navy);border-radius:10px;padding:var(--s4) var(--s5);display:flex;align-items:baseline;gap:var(--s4);flex-wrap:wrap;box-shadow:0 4px 24px oklch(20% .05 260 / .12)}
+.nums .feat .k{font-size:42px;font-weight:700;line-height:1;color:var(--blue);font-family:"Bricolage Grotesque";letter-spacing:-.02em}
+.nums .feat span{color:oklch(85% .01 260);font-size:13.5px;line-height:1.45;flex:1;min-width:260px;max-width:60ch}
+.nums-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:var(--s3)}
+.nums-grid div{background:var(--paper);border-radius:8px;padding:var(--s3) var(--s4) var(--s3);box-shadow:0 2px 12px oklch(20% .05 260 / .06),0 1px 3px oklch(20% .05 260 / .04)}
+.nums-grid .k{font-size:28px;font-weight:700;line-height:1;color:var(--blue);font-family:"Bricolage Grotesque"}
+.nums-grid .k.r{color:var(--coral)}
+.nums-grid .k.red{color:var(--red)}
+.nums-grid span{display:block;color:var(--ink2);font-size:12px;margin-top:var(--s2);line-height:1.4}
+h2{font-family:"Bricolage Grotesque";font-size:22px;margin:var(--s3) 0 var(--s2);font-weight:700;letter-spacing:-.01em}
+h3{font-family:"Bricolage Grotesque";font-size:17px;margin:var(--s4) 0 var(--s2);font-weight:700;letter-spacing:-.01em}
+h4{font-family:"Bricolage Grotesque";font-size:11px;margin:var(--s4) 0 var(--s2);font-weight:700;color:var(--ink2);text-transform:uppercase;letter-spacing:.05em}
+p{max-width:70ch;margin:0 0 var(--s3)}
+.lede-section{font-size:13.5px;color:var(--ink2);max-width:72ch;margin:var(--s2) 0 var(--s3);text-align:justify;hyphens:auto;line-height:1.5}
+.area{padding:var(--s4) 0 var(--s3);border-top:1px solid var(--ink)}
+.area-head{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:var(--s3);margin-bottom:var(--s2)}
+.area .eyebrow{font:700 12px/1 "Bricolage Grotesque";letter-spacing:.08em;text-transform:uppercase;color:var(--blue)}
+.tw{overflow-x:auto;margin:var(--s3) 0}
+table{border-collapse:collapse;width:100%;font-size:12.5px;background:var(--paper);border-radius:6px;overflow:hidden;box-shadow:0 1px 3px oklch(20% .05 260 / .04)}
+th{text-align:left;font:700 10.5px/1.3 "Bricolage Grotesque";color:var(--ink2);padding:var(--s2) var(--s3);background:var(--soft);border-bottom:1px solid var(--ink3);white-space:nowrap;text-transform:uppercase;letter-spacing:.05em}
+td{padding:7px var(--s3);border-bottom:1px solid var(--line);vertical-align:top}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+tr:last-child td{border-bottom:0}
+tr:hover td{background:var(--soft)}
+.tag{display:inline-block;font:700 11px/1 "Bricolage Grotesque";padding:4px 7px;border-radius:5px;white-space:nowrap;letter-spacing:.03em}
+.tag.r{background:var(--redbg);color:var(--red)}
+.tag.o{background:var(--amberbg);color:var(--amber)}
+.tag.g{background:var(--greenbg);color:var(--green)}
+.tag.b{background:oklch(94% .04 258);color:var(--blue)}
+.bad{color:var(--red);font-weight:700;font-family:"Bricolage Grotesque"}
+.pattern{background:var(--navy);color:var(--paper);padding:var(--s6) var(--s7);border-radius:12px;margin:var(--s6) 0}
+.pattern h3{color:var(--paper);margin:0 0 var(--s3)}
+.pattern p{color:oklch(88% .01 260);max-width:70ch;text-align:justify;hyphens:auto}
+.pattern .k{color:var(--coral);font-family:"Bricolage Grotesque";font-weight:700}
+.pattern .eyebrow{color:var(--coral);margin-bottom:var(--s3);display:block;font:700 12px/1 "Bricolage Grotesque";letter-spacing:.08em;text-transform:uppercase}
+code{font-size:13px;background:var(--soft);padding:1px 5px;border-radius:4px;font-family:ui-monospace,"SF Mono",Menlo,monospace}
+.inc{list-style:none;padding:0;margin:var(--s4) 0}
+.inc li{padding:var(--s2) 0;border-bottom:1px solid var(--line);display:grid;grid-template-columns:22px 1fr;gap:var(--s2);align-items:start;font-size:13px;line-height:1.5}
+.inc li:before{content:"";width:8px;height:8px;background:var(--coral);border-radius:50%;margin-top:8px}
+.inc li:last-child{border-bottom:0}
+.pcm{display:grid;grid-template-columns:150px 1fr;margin:var(--s2) 0;border-top:1px solid var(--line)}
+.pcm>dt{font:700 10.5px/1.3 "Bricolage Grotesque";letter-spacing:.07em;text-transform:uppercase;color:var(--ink2);padding:var(--s2) var(--s3) var(--s2) 0;border-bottom:1px solid var(--line)}
+.pcm>dd{margin:0;padding:var(--s2) 0;border-bottom:1px solid var(--line);min-width:0;font-size:13.5px;line-height:1.5}
+.pcm>dd b{font-family:"Bricolage Grotesque"}
+.instfoot{margin-top:var(--s5);padding-top:var(--s3);border-top:1px solid var(--ink);display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:var(--s4)}
+.instfoot .wm{font:700 14px/1.4 "Bricolage Grotesque";letter-spacing:.14em;color:var(--blue);text-transform:uppercase}
+.instfoot .wm span{display:block;color:var(--ink2);font-weight:500;letter-spacing:.08em;font-size:12px;margin-top:4px}
+.instfoot .who{font-size:13px;color:var(--ink3);text-align:right;line-height:1.6;font-family:"Bricolage Grotesque"}
+.instfoot .who b{color:var(--ink);font-weight:700;font-size:14px;display:block}
+.instfoot .sz-logo{color:var(--navy);font-size:22px}
+.instfoot .sz-logo .sz-house svg path{fill:#EB615E}
+.lede,.pattern p,.pcm > dd > p{text-align:justify;hyphens:auto;-webkit-hyphens:auto}
+.funil{display:grid;grid-template-columns:repeat(5,1fr);gap:var(--s2);margin:var(--s2) 0 var(--s3)}
+.funil div{background:var(--paper);padding:var(--s3) var(--s2);border-radius:6px;text-align:center;box-shadow:0 1px 3px oklch(20% .05 260 / .04)}
+.funil .k{font:700 20px/1 "Bricolage Grotesque";color:var(--blue);display:block}
+.funil .l{font:500 11px/1.3 "Bricolage Grotesque";color:var(--ink3);text-transform:uppercase;letter-spacing:.04em;margin-top:var(--s2)}
+@media print { .area{page-break-inside:avoid} .pattern{page-break-inside:avoid} table{page-break-inside:auto} }
+</style></head><body>
+
+<section class="hero">
+ <div class="hero-inner">
+  <div class="masthead">
+   <div class="wordmark"><span class="sz-logo" role="img" aria-label="Seazone">sea<span class="sz-house"><svg viewBox="0 0 564 575" xmlns="http://www.w3.org/2000/svg"><path d="M543.226 178.172L442.93 119.392C443.194 117.952 443.72 116.643 443.72 115.203V26.5752C443.72 11.913 431.743 0 417.001 0H363.562C348.821 0 336.843 11.913 336.843 26.5752V57.6015L300.516 36.3936C285.774 27.6225 266.294 29.0626 252.605 39.1428C252.342 39.2737 252.079 39.2737 251.947 39.4046L20.951 172.543C1.73419 183.932 -6.29474 210.507 5.55122 230.406C17.9237 251.09 45.301 256.588 64.5178 245.199L78.3381 237.213C62.017 269.025 51.7505 305.026 51.7505 344.169C51.7505 406.221 75.7056 467.226 119.799 511.344C137.173 528.624 157.443 543.156 179.555 553.759C196.666 562.007 214.567 568.814 233.257 572.218C258.002 576.669 283.8 574.444 308.808 574.444C335.922 574.444 363.036 574.444 390.018 574.444C414.5 574.444 439.113 574.575 463.99 574.575C470.176 574.575 476.231 573.004 481.759 570.254C488.866 566.72 492.947 562.792 497.685 556.509C502.95 549.57 506.635 541.061 506.635 532.159V252.923C525.062 259.599 547.306 253.839 558.363 235.511C570.34 215.613 562.311 189.038 542.963 177.648L543.226 178.172ZM427.794 348.751C427.794 433.582 370.012 502.573 282.878 502.573C195.745 502.573 131.777 429.131 131.777 344.3C131.777 259.468 195.745 188.776 282.878 188.776C370.012 188.776 427.794 254.232 427.794 338.147V348.751Z" fill="#EB615E"/></svg></span>zone</span><span>· BackOffice Franquias</span></div>
+   <div class="mast-date">Documento interno · 16/10/2026 16:38</div>
+  </div>
+  <div class="eyebrow">Para Carol Espindola · Diretora de Franquias</div>
+  <h1>Ocorrências & Multas na Rede</h1>
+  <p class="lede">Monitoramento executivo do funil de descumprimento. Janela de <b>90 dias rolantes</b> (18/07/2026 → 16/10/2026 (90 dias rolantes)) sob a Política de Descumprimento vigente, consolidando backlog, projeção de novas multas e inconformidades identificadas no processo.</p>
+  <div class="meta">Fonte: <b>MCP Central de Ocorrências</b> · Política de Descumprimento REV03 · Base 16/10/2026 16:38</div>
+ </div>
+</section>
+
+<main class="wrap">
+
+ <section class="nums">
+  <div class="feat">
+   <div class="k">123</div>
+   <span>ocorrências em andamento na janela — distribuídas entre as etapas "Nova", "1º Contato", "2º Contato" e "Aplicação de Pontuação" do funil de qualidade.</span>
+  </div>
+  <div class="nums-grid">
+   <div><div class="k red">30</div><span>Novas multas potenciais se todo o backlog validar com pontuação.</span></div>
+   <div><div class="k r">R$ 7,500</div><span>Exposição financeira — valor potencial a R$ 250 por multa.</span></div>
+   <div><div class="k">23</div><span>Franquias com multa ativa hoje — 26 multas em curso.</span></div>
+   <div><div class="k">178</div><span>Ocorrências pontuadas na janela de 90 dias.</span></div>
+  </div>
+ </section>
+
+ <section class="area">
+  <div class="area-head"><div class="eyebrow">Metodologia</div></div>
+  <h2>Como lemos o risco</h2>
+  <dl class="pcm">
+   <dt>Critério</dt><dd><b>Pontuação acumulada</b>. Cada 8 pts geram 1 multa de R$ 250. Matriz oficial: Leve = 1 · Média = 2 · Grave = 4 · Gravíssima = 7.</dd>
+   <dt>Janela</dt><dd><b>90 dias rolantes</b>. Ocorrências criadas antes do início da janela prescrevem e não entram no cálculo.</dd>
+   <dt>Consumo</dt><dd><b>Zera por multa</b>. Ocorrências que já foram contabilizadas em uma multa anterior saem do saldo — só valem as criadas após a data da última multa ativa da franquia.</dd>
+   <dt>Projeção</dt><dd>Assume o pior cenário: <b>todo o backlog</b> em andamento será validado com pontuação na gravidade atual.</dd>
+  </dl>
+ </section>
+
+ <section class="area">
+  <div class="area-head"><div class="eyebrow">Etapas do funil</div></div>
+  <h2>Onde estão as ocorrências em andamento</h2>
+  <p class="lede-section">O gargalo da rede está concentrado no <b>1º Contato</b> — 87 das 123 ocorrências ativas aguardam resposta da franquia. 51 delas já ultrapassaram o SLA de 5 dias.</p>
+  <div class="funil">
+   <div><span class="k">22</span><span class="l">Nova</span></div>
+   <div><span class="k">87</span><span class="l">1º Contato</span></div>
+   <div><span class="k">1</span><span class="l">2º Contato</span></div>
+   <div><span class="k">13</span><span class="l">Aplicação</span></div>
+   <div><span class="k">178</span><span class="l">Pontuadas</span></div>
+  </div>
+ </section>
+
+ <section class="area">
+  <div class="area-head"><div class="eyebrow">Alerta</div></div>
+  <h2>Franquias em eminência de multa</h2>
+  <p class="lede-section">Franquias a ≤2 pontos de atingir o limiar de nova multa, com ocorrências ainda em andamento. A tag <span class="tag r">crítica</span> marca falta de apenas 1 ponto.</p>
+  <div class="tw">
+  <table>
+   <thead><tr><th>Franquia</th><th class="n">Pts hoje</th><th class="n">Falta p/ multa</th><th class="n">Backlog</th><th>Status</th></tr></thead>
+   <tbody><tr>
+      <td>Luciana Dellamora Pata Fernandes Lima</td>
+      <td class="n">7</td>
+      <td class="n"><b>1</b></td>
+      <td class="n">1</td>
+      <td><span class="tag r">crítica</span></td>
+    </tr><tr>
+      <td>Pedro Henrique Do Erre de Jesus</td>
+      <td class="n">6</td>
+      <td class="n"><b>2</b></td>
+      <td class="n">1</td>
+      <td><span class="tag o">alerta</span></td>
+    </tr><tr>
+      <td>Edite Alves</td>
+      <td class="n">6</td>
+      <td class="n"><b>2</b></td>
+      <td class="n">6</td>
+      <td><span class="tag o">alerta</span></td>
+    </tr><tr>
+      <td>Eduardo José Pereira Santos</td>
+      <td class="n">6</td>
+      <td class="n"><b>2</b></td>
+      <td class="n">1</td>
+      <td><span class="tag o">alerta</span></td>
+    </tr><tr>
+      <td>José Fernando de Campos</td>
+      <td class="n">10</td>
+      <td class="n"><b>6</b></td>
+      <td class="n">1</td>
+      <td><span class="tag o">alerta</span></td>
+    </tr><tr>
+      <td>Wolnei Roberto Ramos</td>
+      <td class="n">10</td>
+      <td class="n"><b>6</b></td>
+      <td class="n">3</td>
+      <td><span class="tag o">alerta</span></td>
+    </tr></tbody>
+  </table>
+  </div>
+ </section>
+
+ <section class="area">
+  <div class="area-head"><div class="eyebrow">Ranking de risco</div></div>
+  <h2>Projeção de novas multas</h2>
+  <p class="lede-section">Franquias ordenadas pela quantidade de multas que seriam abertas caso <b>todo o backlog</b> em andamento validasse com pontuação. Top 12.</p>
+  <div class="tw">
+  <table>
+   <thead><tr><th>Franquia</th><th class="n">Pts hoje</th><th class="n">Backlog</th><th class="n">Pts projetados</th><th class="n">Novas multas</th></tr></thead>
+   <tbody><tr>
+      <td>Jessica Cristine Silva dos Santos</td>
+      <td class="n">32</td>
+      <td class="n">12</td>
+      <td class="n"><b>52</b></td>
+      <td class="n"><span class="bad">4</span></td>
+    </tr><tr>
+      <td>Dreicom Adolfo Neckel Wolter <span class="tag o">já multada</span></td>
+      <td class="n">5</td>
+      <td class="n">7</td>
+      <td class="n"><b>22</b></td>
+      <td class="n"><span class="bad">3</span></td>
+    </tr><tr>
+      <td>Edite Alves</td>
+      <td class="n">6</td>
+      <td class="n">6</td>
+      <td class="n"><b>18</b></td>
+      <td class="n"><span class="bad">3</span></td>
+    </tr><tr>
+      <td>Ricardo Portella Junior</td>
+      <td class="n">2</td>
+      <td class="n">5</td>
+      <td class="n"><b>16</b></td>
+      <td class="n"><span class="bad">3</span></td>
+    </tr><tr>
+      <td>Camila Moura Lacerda</td>
+      <td class="n">8</td>
+      <td class="n">3</td>
+      <td class="n"><b>20</b></td>
+      <td class="n"><span class="bad">2</span></td>
+    </tr><tr>
+      <td>Wolnei Roberto Ramos</td>
+      <td class="n">10</td>
+      <td class="n">3</td>
+      <td class="n"><b>20</b></td>
+      <td class="n"><span class="bad">2</span></td>
+    </tr><tr>
+      <td>Dineia Pedroso de Almeida <span class="tag o">já multada</span></td>
+      <td class="n">2</td>
+      <td class="n">3</td>
+      <td class="n"><b>14</b></td>
+      <td class="n"><span class="bad">1</span></td>
+    </tr><tr>
+      <td>Andrea Mara dos Santos Podlasinski</td>
+      <td class="n">0</td>
+      <td class="n">3</td>
+      <td class="n"><b>12</b></td>
+      <td class="n"><span class="bad">1</span></td>
+    </tr><tr>
+      <td>Roberta de Freitas Costa</td>
+      <td class="n">1</td>
+      <td class="n">3</td>
+      <td class="n"><b>10</b></td>
+      <td class="n"><span class="bad">1</span></td>
+    </tr><tr>
+      <td>Roberta de Almeida Turra Vieira</td>
+      <td class="n">0</td>
+      <td class="n">4</td>
+      <td class="n"><b>10</b></td>
+      <td class="n"><span class="bad">1</span></td>
+    </tr><tr>
+      <td>Agatha de Assis Souza Gloria</td>
+      <td class="n">0</td>
+      <td class="n">3</td>
+      <td class="n"><b>10</b></td>
+      <td class="n"><span class="bad">1</span></td>
+    </tr><tr>
+      <td>Luciana Dellamora Pata Fernandes Lima <span class="tag o">já multada</span></td>
+      <td class="n">7</td>
+      <td class="n">1</td>
+      <td class="n"><b>9</b></td>
+      <td class="n"><span class="bad">1</span></td>
+    </tr></tbody>
+  </table>
+  </div>
+ </section>
+
+ <section class="area">
+  <div class="area-head"><div class="eyebrow">Franquias já multadas</div></div>
+  <h2>Multas ativas hoje</h2>
+  <p class="lede-section">23 franquias com multa aplicada ou em validação — totalizando 26 multas ativas na rede. Mostra também o backlog pendente de cada uma.</p>
+  <div class="tw">
+  <table>
+   <thead><tr><th>Franquia</th><th class="n">Multas</th><th>Critérios</th><th class="n">Ref. desconto</th><th class="n">Backlog</th><th class="n">Pts em aberto</th></tr></thead>
+   <tbody><tr>
+      <td>Ana Márcia Pereira Buzzacchino</td>
+      <td class="n">1</td>
+      <td><span style='color:var(--ink3);font-size:12.5px'>Pontuação acumulada · 1ª multa</span></td>
+      <td class="n" style="font-variant-numeric:tabular-nums">2026-10</td>
+      <td class="n">2</td>
+      <td class="n">6</td>
+    </tr><tr>
+      <td>Jéssica Schirley Sibilio Dutra Jordão Macedo</td>
+      <td class="n">1</td>
+      <td><span style='color:var(--ink3);font-size:12.5px'>Manual: 3.4 — Desrespeito ou ofensa ao hóspede</span></td>
+      <td class="n" style="font-variant-numeric:tabular-nums">2026-10</td>
+      <td class="n">0</td>
+      <td class="n">0</td>
+    </tr><tr>
+      <td>Luís Eduardo Oliveira Machado</td>
+      <td class="n">1</td>
+      <td><span style='color:var(--ink3);font-size:12.5px'>Pontuação acumulada · 1ª multa</span></td>
+      <td class="n" style="font-variant-numeric:tabular-nums">2026-10</td>
+      <td class="n">1</td>
+      <td class="n">1</td>
+    </tr><tr>
+      <td>Jhenyffer Paola Ramos da Silva</td>
+      <td class="n">1</td>
+      <td><span style='color:var(--ink3);font-size:12.5px'>Pontuação acumulada · 1ª multa</span></td>
+      <td class="n" style="font-variant-numeric:tabular-nums">2026-09</td>
+      <td class="n">0</td>
+      <td class="n">0</td>
+    </tr><tr>
+      <td>Dreicom Adolfo Neckel Wolter</td>
+      <td class="n">1</td>
+      <td><span style='color:var(--ink3);font-size:12.5px'>Pontuação acumulada · 1ª multa</span></td>
+      <td class="n" style="font-variant-numeric:tabular-nums">2026-08</td>
+      <td class="n">7</td>
+      <td class="n">17</td>
+    </tr><tr>
+      <td>Evelyn Gabriela dos Santos</td>
+      <td class="n">1</td>
+      <td><span style='color:var(--ink3);font-size:12.5px'>Pontuação acumulada · 1ª multa</span></td>
+      <td class="n" style="font-variant-numeric:tabular-nums">2026-08</td>
+      <td class="n">0</td>
+      <td class="n">0</td>
+    </tr><tr>
+      <td>Gladys Timmerman</td>
+      <td class="n">1</td>
+      <td><span style='color:var(--ink3);font-size:12.5px'>Manual: 11.6 — Ausência no evento anual de franquias sem justificativa</span></td>
+      <td class="n" style="font-variant-numeric:tabular-nums">2026-08</td>
+      <td class="n">0</td>
+      <td class="n">0</td>
+    </tr><tr>
+      <td>Isadora Corrêa de Oliveira</td>
+      <td class="n">1</td>
+      <td><span style='color:var(--ink3);font-size:12.5px'>Manual: 11.6 — Ausência no evento anual de franquias sem justificativa</span></td>
+      <td class="n" style="font-variant-numeric:tabular-nums">2026-08</td>
+      <td class="n">1</td>
+      <td class="n">1</td>
+    </tr><tr>
+      <td>Luanda Tavares Santana</td>
+      <td class="n">1</td>
+      <td><span style='color:var(--ink3);font-size:12.5px'>Manual: 11.6 — Ausência no evento anual de franquias sem justificativa</span></td>
+      <td class="n" style="font-variant-numeric:tabular-nums">2026-08</td>
+      <td class="n">0</td>
+      <td class="n">0</td>
+    </tr><tr>
+      <td>Patrick Josoe Brando</td>
+      <td class="n">1</td>
+      <td><span style='color:var(--ink3);font-size:12.5px'>Pontuação acumulada · 1ª multa</span></td>
+      <td class="n" style="font-variant-numeric:tabular-nums">2026-08</td>
+      <td class="n">0</td>
+      <td class="n">0</td>
+    </tr><tr>
+      <td>Rodrigo Maruco Ruas de Oliveira</td>
+      <td class="n">1</td>
+      <td><span style='color:var(--ink3);font-size:12.5px'>Manual: 11.6 — Ausência no evento anual de franquias sem justificativa</span></td>
+      <td class="n" style="font-variant-numeric:tabular-nums">2026-08</td>
+      <td class="n">1</td>
+      <td class="n">4</td>
+    </tr><tr>
+      <td>Sônia Maria Gervásio Sales</td>
+      <td class="n">1</td>
+      <td><span style='color:var(--ink3);font-size:12.5px'>Pontuação acumulada · 1ª multa</span></td>
+      <td class="n" style="font-variant-numeric:tabular-nums">2026-08</td>
+      <td class="n">2</td>
+      <td class="n">3</td>
+    </tr><tr>
+      <td>Camila Bresolin Pereira</td>
+      <td class="n">3</td>
+      <td><span style='color:var(--ink3);font-size:12.5px'>Pontuação acumulada · 3ª multa</span><br><span style='color:var(--ink3);font-size:12.5px'>Pontuação acumulada · 2ª multa</span><br><span style='color:var(--ink3);font-size:12.5px'>Pontuação acumulada · 1ª multa</span></td>
+      <td class="n" style="font-variant-numeric:tabular-nums">2026-07</td>
+      <td class="n">0</td>
+      <td class="n">0</td>
+    </tr><tr>
+      <td>Gabriela da Luz Nunes</td>
+      <td class="n">2</td>
+      <td><span style='color:var(--ink3);font-size:12.5px'>Pontuação acumulada · 2ª multa</span><br><span style='color:var(--ink3);font-size:12.5px'>Pontuação acumulada · 1ª multa</span></td>
+      <td class="n" style="font-variant-numeric:tabular-nums">2026-07</td>
+      <td class="n">2</td>
+      <td class="n">5</td>
+    </tr><tr>
+      <td>Diego Rafael Padilha dos Santos</td>
+      <td class="n">1</td>
+      <td><span style='color:var(--ink3);font-size:12.5px'>Pontuação acumulada · 1ª multa</span></td>
+      <td class="n" style="font-variant-numeric:tabular-nums">2026-07</td>
+      <td class="n">0</td>
+      <td class="n">0</td>
+    </tr><tr>
+      <td>Dineia Pedroso de Almeida</td>
+      <td class="n">1</td>
+      <td><span style='color:var(--ink3);font-size:12.5px'>Pontuação acumulada · 1ª multa</span></td>
+      <td class="n" style="font-variant-numeric:tabular-nums">2026-07</td>
+      <td class="n">3</td>
+      <td class="n">12</td>
+    </tr><tr>
+      <td>Eduardo José Pereira Santos</td>
+      <td class="n">1</td>
+      <td><span style='color:var(--ink3);font-size:12.5px'>Pontuação acumulada · 1ª multa</span></td>
+      <td class="n" style="font-variant-numeric:tabular-nums">2026-07</td>
+      <td class="n">1</td>
+      <td class="n">2</td>
+    </tr><tr>
+      <td>Flávio de Souza Porto</td>
+      <td class="n">1</td>
+      <td><span style='color:var(--ink3);font-size:12.5px'>Pontuação acumulada · 1ª multa</span></td>
+      <td class="n" style="font-variant-numeric:tabular-nums">2026-07</td>
+      <td class="n">2</td>
+      <td class="n">4</td>
+    </tr><tr>
+      <td>Giselia Soares da Silva</td>
+      <td class="n">1</td>
+      <td><span style='color:var(--ink3);font-size:12.5px'>Pontuação acumulada · 1ª multa</span></td>
+      <td class="n" style="font-variant-numeric:tabular-nums">2026-07</td>
+      <td class="n">0</td>
+      <td class="n">0</td>
+    </tr><tr>
+      <td>Luciana Dellamora Pata Fernandes Lima</td>
+      <td class="n">1</td>
+      <td><span style='color:var(--ink3);font-size:12.5px'>Pontuação acumulada · 1ª multa</span></td>
+      <td class="n" style="font-variant-numeric:tabular-nums">2026-07</td>
+      <td class="n">1</td>
+      <td class="n">2</td>
+    </tr><tr>
+      <td>Maria Carolina de Rodrigues de Souza</td>
+      <td class="n">1</td>
+      <td><span style='color:var(--ink3);font-size:12.5px'>Pontuação acumulada · 1ª multa</span></td>
+      <td class="n" style="font-variant-numeric:tabular-nums">2026-07</td>
+      <td class="n">0</td>
+      <td class="n">0</td>
+    </tr><tr>
+      <td>Christina Elisabeth Carpes Antunes</td>
+      <td class="n">1</td>
+      <td><span style='color:var(--ink3);font-size:12.5px'>Pontuação acumulada · 1ª multa</span></td>
+      <td class="n" style="font-variant-numeric:tabular-nums">2026-06</td>
+      <td class="n">0</td>
+      <td class="n">0</td>
+    </tr><tr>
+      <td>Sandra Maria Gervásio Sales</td>
+      <td class="n">1</td>
+      <td><span style='color:var(--ink3);font-size:12.5px'>Pontuação acumulada · 1ª multa</span></td>
+      <td class="n" style="font-variant-numeric:tabular-nums">2026-06</td>
+      <td class="n">0</td>
+      <td class="n">0</td>
+    </tr></tbody>
+  </table>
+  </div>
+ </section>
+
+ <section class="area">
+  <div class="area-head"><div class="eyebrow">Análise gerencial</div></div>
+  <h2>Composição do backlog</h2>
+  <h4>Distribuição por gravidade</h4>
+  <div class="tw"><table>
+   <thead><tr><th>Gravidade</th><th class="n">Pontuação</th><th class="n">Qtd</th><th class="n">%</th></tr></thead>
+   <tbody><tr><td>Grave</td><td class="n" style="color:var(--ink3)">4 pts</td><td class="n">40</td><td class="n" style="color:var(--ink3)">32.5%</td></tr><tr><td>Média</td><td class="n" style="color:var(--ink3)">2 pts</td><td class="n">56</td><td class="n" style="color:var(--ink3)">45.5%</td></tr><tr><td>Leve</td><td class="n" style="color:var(--ink3)">1 pt</td><td class="n">27</td><td class="n" style="color:var(--ink3)">22.0%</td></tr></tbody>
+  </table></div>
+  <h4>Origem (categorias top)</h4>
+  <div class="tw"><table>
+   <thead><tr><th>Categoria</th><th class="n">Qtd</th><th class="n">%</th></tr></thead>
+   <tbody><tr><td>Rede — Governança &amp; Processo</td><td class="n">25</td><td class="n" style="color:var(--ink3)">20.3%</td></tr><tr><td>Implantação</td><td class="n">22</td><td class="n" style="color:var(--ink3)">17.9%</td></tr><tr><td>Manutenção</td><td class="n">19</td><td class="n" style="color:var(--ink3)">15.4%</td></tr><tr><td>Reservas &amp; Experiência do Hóspede</td><td class="n">15</td><td class="n" style="color:var(--ink3)">12.2%</td></tr><tr><td>Despesas</td><td class="n">8</td><td class="n" style="color:var(--ink3)">6.5%</td></tr><tr><td>Ocorrência com a Seazone</td><td class="n">7</td><td class="n" style="color:var(--ink3)">5.7%</td></tr></tbody>
+  </table></div>
+  <h4>Tempo & SLA</h4>
+  <dl class="pcm">
+   <dt>Tempo médio</dt><dd>35.2 dias entre criação e fechamento das ocorrências pontuadas.</dd>
+   <dt>Nova &gt; 5 dias</dt><dd>0 ocorrência(s) na coluna "Nova Ocorrência" fora de SLA.</dd>
+   <dt>Exposição</dt><dd><b class="bad">R$ 7,500</b> — valor financeiro potencial da projeção.</dd>
+  </dl>
+ </section>
+
+ <section class="area">
+  <div class="area-head"><div class="eyebrow">Inconformidades do processo</div></div>
+  <h2>Pontos de atenção estruturais</h2>
+  <ul class="inc">
+   <li><div><b>Rótulos de gravidade fora da política.</b><br>Encontrados: nenhum. A política só reconhece <code>leve</code>, <code>media</code>, <code>grave</code>, <code>gravissima</code>.</div></li>
+   <li><div><b>Backlog em "1º Contato" fora de SLA.</b><br>51 ocorrências paradas há mais de 5 dias aguardando resposta da franquia. Reforça a necessidade de política de corte automático por silêncio.</div></li>
+   <li><div><b>Rastreabilidade de consumo ausente.</b><br>A tabela <code>multas_ocorrencias</code> não expõe o vínculo direto multa↔ocorrência consumida. Consumo é inferido pelo critério.</div></li>
+   <li><div><b>Patamar não re-roda após cancelamento.</b><br>Caso Jessica: 32 pts acumulados sem nova multa aberta após o cancelamento de 11/08. Sinaliza falha no cálculo automático — mesmo padrão identificado no caso Camila ("patamar duplicando ocorrências já multadas").</div></li>
+  </ul>
+ </section>
+
+ <footer class="instfoot">
+  <div class="wm">Seazone · BackOffice Franquias<span>Monitoramento de Governança</span></div>
+  <div class="who"><b>Rayanne Oliveira</b>Gerente BackOffice Franquias<br>16/10/2026 16:38</div>
+ </footer>
+
+</main>
+</body></html>
